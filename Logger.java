@@ -22,7 +22,7 @@ public class Logger {
     final private static String logPath = "logs/";
     final private static String defaultLogFile = "DefaultLog.txt";
 
-    private static String currentLog = defaultLogFile;
+    private static String currentLogFile = defaultLogFile;
 
 
     public static enum LogType {
