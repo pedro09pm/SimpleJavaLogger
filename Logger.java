@@ -25,25 +25,29 @@ public class Logger {
 
     public static enum LogType {
 
-        WARNING,
-        INFO,
-        DEBUG,
-        REQUIRED, // Required logs do not show their tag.
+        // LogType(isShown, includesTime, padding)
+
+        WARNING(true, true, 0),
+        INFO(true, true, 0),
+        DEBUG(true, true, 0),
+        REQUIRED(false, false, 0); // Required log's tags and time are not shown.
+
+        private final boolean isTagShown;
+        private final boolean includesTime;
+        private final int padding;
+
+        private LogType (boolean isShown, boolean includesTime, int padding) {
+            this.isTagShown = isTagShown;
+            this.includesTime = includesTime;
+            this.padding = padding;
+        }
 
     }
 
 
-    private static String getCurrentTime(boolean includeDate) {
+    private static String getCurrentTime() {
 
-        if (includeDate) {
-        
-            return LocalDate.now().toString() + "_" + LocalTime.now().toString().substring(0, 8).replaceAll(":", "-");
-        
-        } else {
-
-            return LocalTime.now().toString().substring(0, 8).replaceAll(":", "-");
-
-        }
+        return LocalDate.now().toString() + "_" + LocalTime.now().toString().substring(0, 8).replaceAll(":", "-");
 
     }
 
@@ -76,7 +80,7 @@ public class Logger {
 
     }
 
-    public static void log(String log, LogType type, boolean includeTime, boolean append) {
+    public static void log(String log, LogType type) {
 
 
 
@@ -85,8 +89,7 @@ public class Logger {
 
     public static void main(String[] args) {
 
-        System.out.println(getCurrentTime(true));
-        System.out.println(getCurrentTime(false));
+        System.out.println(getCurrentTime());
 
     }
 
