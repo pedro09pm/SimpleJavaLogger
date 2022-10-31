@@ -91,10 +91,9 @@ public class Logger {
 
     public static void main(String[] args) {
 
-        System.out.println(getCurrentTime());
-        System.out.println(" ".repeat(LogType.REQUIRED.padding) + "[" + LogType.REQUIRED + "]");
-        System.out.println(" ".repeat(LogType.WARNING.padding) + "[" + LogType.WARNING + "]");
-        System.out.println(" ".repeat(LogType.DEBUG.padding) + "[" + LogType.DEBUG + "]");
+        System.out.println(getCurrentTime() + " ".repeat(LogType.REQUIRED.padding + 1) + "[" + LogType.REQUIRED + "] : ");
+        System.out.println(getCurrentTime() + " ".repeat(LogType.WARNING.padding + 1) + "[" + LogType.WARNING + "] : ");
+        System.out.println(getCurrentTime() + " ".repeat(LogType.DEBUG.padding + 1) + "[" + LogType.DEBUG + "] : ");
 
     }
 
