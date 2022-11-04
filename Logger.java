@@ -32,6 +32,7 @@ public class Logger {
         // For formatting reasons if isTagShown == false padding is irrelevant.
 
         HEADER(true, false, false, 0),
+        OT(true, false, false, 0),
         WARNING(logWarning, true, true, 1),
         INFO(logInfo, true, true, 4),
         DEBUG(logDebug, true, true, 3),
