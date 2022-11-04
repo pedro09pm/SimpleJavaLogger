@@ -29,7 +29,7 @@ public class Logger {
 
         // LogType(isShown, includesTime, padding)
 
-        // For formatting reasons if isTagShown == false -> padding = 0
+        // For formatting reasons if isTagShown == false padding is irrelevant.
 
         HEADER(true, false, false, 0),
         WARNING(logWarning, true, true, 1),
@@ -107,7 +107,7 @@ public class Logger {
 
             } else {
 
-                log = " ".repeat(10 + type.padding + 1) + " : " + log;
+                log = " ".repeat(11) + " : " + log;
 
             }
 
