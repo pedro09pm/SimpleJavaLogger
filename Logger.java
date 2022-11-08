@@ -24,8 +24,7 @@ public class Logger {
 
     final private static String logHeaderText = "";
 
-    private static String currentLogFile = defaultLogFile;
-
+    private static String currentLogFile = defaultLogFile; // Our 
 
     public static enum LogType {
 
@@ -131,17 +130,6 @@ public class Logger {
         // Write log to file.
 
         System.out.println(log);
-
-    }
-
-
-    public static void main(String[] args) {
-
-        log("El wiwi", LogType.HEADER);
-        log("El wiwi", LogType.WARNING);
-        log("El wiwi", LogType.INFO);
-        log("El wiwi", LogType.DEBUG);
-        log("El wiwi", LogType.REQUIRED);
 
     }
 
