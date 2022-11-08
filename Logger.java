@@ -13,14 +13,16 @@ public class Logger {
 
     // Configuration
 
-    final private static boolean deleteOldLogs = true;
+    final private static boolean deleteOldLogFiles = true;
 
     final private static boolean logWarning = true;
     final private static boolean logInfo = true;
     final private static boolean logDebug = true;
 
-    final private static String logPath = "logs/";
+    final private static String logFilePath = "logs/";
     final private static String defaultLogFile = "DefaultLog.txt";
+
+    final private static String logHeaderText = "";
 
     private static String currentLogFile = defaultLogFile;
 
@@ -71,36 +73,27 @@ public class Logger {
     }
 
 
-    private static void createLog(String logName) {
+    private static void createLogFile(String logName) {
 
 
 
     }
 
-    private static void deleteLog(String logName) {
+    private static void deleteLogFile(String logName) {
 
 
 
     }
 
 
-    private static void writeLogHeader() {
+    private static String formatLog(String log, LogType type) {
 
-        
-
-    }
-
-    public static void log(String log, LogType type) {
-
-        // Format log.
 
         if (type == LogType.HEADER) {
 
-            // Write log without modifications.
+            return log; // Return log without modifications.
 
-        }
-
-        if (type.isLogged && type != LogType.HEADER) {
+        } else if (type.isLogged) {
 
             if (type.isTagShown) {
 
@@ -123,6 +116,17 @@ public class Logger {
             }
 
         }
+
+        return log;
+
+    }
+
+
+    public static void log(String log, LogType type) {
+
+        // Format log.
+
+        log = formatLog(log, type);
 
         // Write log to file.
 
