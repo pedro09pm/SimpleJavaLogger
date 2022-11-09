@@ -24,7 +24,8 @@ public class Logger {
 
     final private static String logHeaderText = "";
 
-    private static String currentLogFile = defaultLogFile; // Our 
+    private static String currentLogFile = defaultLogFile;
+
 
     public static enum LogType {
 
@@ -76,6 +77,7 @@ public class Logger {
 
 
     }
+    
 
     private static void deleteLogFile(String logName) {
 
