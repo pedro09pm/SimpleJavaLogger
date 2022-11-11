@@ -1,6 +1,7 @@
 public class LoggerTester {
-
     public static void main(String[] args) {
+
+        Logger.initialize();
 
         Logger.log("El wiwi", Logger.LogType.HEADER);
         Logger.log("El wiwi", Logger.LogType.WARNING);

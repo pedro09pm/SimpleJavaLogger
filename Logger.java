@@ -10,6 +10,8 @@ import java.time.LocalDate;
 
 public class Logger {
 
+    private static byte[] paddingArray;
+    private static byte biggestLogTypeLength = 0;
 
     // Configuration
 
@@ -19,37 +21,70 @@ public class Logger {
     final private static boolean logInfo = true;
     final private static boolean logDebug = true;
 
-    final private static String logFilePath = "logs/";
-    final private static String defaultLogFile = "DefaultLog.txt";
+    final private String logFilePath = "logs/";
 
-    final private static String logHeaderText = "Simple Java Logger\n\n";
-
-    private static String currentLogFile = defaultLogFile;
+    final private String logHeaderText = "Simple Java Logger\n\n";
 
 
     public static enum LogType {
 
-        // LogType(isShown, includesTime, padding)
+        // LogType(isLogged, isShown, includesTime)
 
-        // For formatting reasons if isTagShown == false padding is irrelevant.
-
-        HEADER(true, false, false, 0),
-        WARNING(logWarning, true, true, 1),
-        INFO(logInfo, true, true, 4),
-        DEBUG(logDebug, true, true, 3),
-        REQUIRED(true, true, true, 0); // [Biggest type, length is 8]
+        HEADER(true, false, false),
+        WARNING(logWarning, true, true),
+        INFO(logInfo, true, true),
+        DEBUG(logDebug, true, true),
+        REQUIRED(true, true, true);
 
         private final boolean isLogged;
         private final boolean isTagShown;
         private final boolean includesTime;
-        private final int padding;
 
-        private LogType (boolean isLogged, boolean isTagShown, boolean includesTime, int padding) {
+        private LogType (boolean isLogged, boolean isTagShown, boolean includesTime) {
 
             this.isLogged = isLogged;
             this.isTagShown = isTagShown;
             this.includesTime = includesTime;
-            this.padding = padding;
+
+        }
+
+    }
+
+
+    public static void initialize() {
+
+        // Generate padding array for text formatting.
+
+        generatePaddingArray();
+
+        // Check if default log file exists.
+
+        // Create new log file.
+
+    }
+
+
+    private static void generatePaddingArray() {
+
+        paddingArray = new byte[LogType.values().length];
+
+        LogType biggestLogType = LogType.values()[0];
+
+        for (int i = 0; i < LogType.values().length; i++) { // Find biggest logType by length
+
+            if (LogType.values()[i].toString().length() > biggestLogType.toString().length()) {
+
+                biggestLogType = LogType.values()[i];
+
+            }
+
+        }
+
+        biggestLogTypeLength = (byte) biggestLogType.toString().length();
+
+        for (int i = 0; i < LogType.values().length; i++) { // Create paddingArray
+
+            paddingArray[i] = (byte) (biggestLogTypeLength - LogType.values()[i].toString().length());
 
         }
 
@@ -59,15 +94,6 @@ public class Logger {
     private static String getCurrentTime() {
 
         return LocalDate.now().toString() + "_" + LocalTime.now().toString().substring(0, 8).replaceAll(":", "-");
-
-    }
-
-
-    public static void initialize() {
-
-        // Check if default log file exists.
-
-        // Create new log file.
 
     }
 
@@ -88,6 +114,7 @@ public class Logger {
 
     private static String formatLog(String log, LogType type) {
 
+        int spacing = 1; // Spacing between date and LogType
 
         if (type == LogType.HEADER) {
 
@@ -97,11 +124,11 @@ public class Logger {
 
             if (type.isTagShown) {
 
-                log = " ".repeat(type.padding + 1) + "[" + type + "] : " + log;
+                log = " ".repeat(paddingArray[type.ordinal()] + spacing) + "[" + type + "] : " + log;
 
             } else {
 
-                log = " ".repeat(11) + " : " + log; // This is bad [Magic number.] should be replaced with a biggestTypelength variable.
+                log = " ".repeat(biggestLogTypeLength + spacing*2) + " : " + log;
 
             }
 
@@ -111,7 +138,7 @@ public class Logger {
 
             } else {
 
-                log = " ".repeat(21) + log;
+                log = " ".repeat(getCurrentTime().length() + spacing*2) + log;
 
             }
 
