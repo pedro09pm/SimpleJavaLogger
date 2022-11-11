@@ -22,7 +22,7 @@ public class Logger {
     final private static String logFilePath = "logs/";
     final private static String defaultLogFile = "DefaultLog.txt";
 
-    final private static String logHeaderText = "";
+    final private static String logHeaderText = "Simple Java Logger\n\n";
 
     private static String currentLogFile = defaultLogFile;
 
@@ -101,7 +101,7 @@ public class Logger {
 
             } else {
 
-                log = " ".repeat(11) + " : " + log;
+                log = " ".repeat(11) + " : " + log; // This is bad [Magic number.] should be replaced with a biggestTypelength variable.
 
             }
 
