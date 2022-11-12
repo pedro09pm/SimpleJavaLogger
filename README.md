@@ -22,6 +22,8 @@ This logger is not meant to be instanced.
 
 #### · CUSTOMIZING A HEADER TEXT
 
+<pre><code>Logger.setHeaderText("HEADER TEXT");</code></pre>
+
 #### · Log types
 
 Logs can be of various types, which come with specific properties that change their apprearance in the final log file. All log types except LogType.REQUIRED have a boolean flag declared at class level to decide if they are logged or not.
@@ -34,13 +36,12 @@ Logs can be of various types, which come with specific properties that change th
 
 Default log types have the following apperance, note that LogType.HEADER has neither a date nor a type label.
 
-<pre><code>
-Test
+
+<pre><code>Test
 [2022-11-12_00-41-06]  [WARNING] : Test
 [2022-11-12_00-41-06]     [INFO] : Test
 [2022-11-12_00-41-06]    [DEBUG] : Test
-[2022-11-12_00-41-06] [REQUIRED] : Test
-</code></pre>
+[2022-11-12_00-41-06] [REQUIRED] : Test</code></pre>
 
 ### -- HOW TO MODIFY --
 
