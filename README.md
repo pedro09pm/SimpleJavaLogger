@@ -31,7 +31,7 @@ You can change the header text for newly created log files using the **setHeader
 Logs can be of various types, which come with specific properties that change their apprearance in the final log file. All log types except LogType.REQUIRED have a boolean flag declared at class level to decide if they are logged or not.
 
 |                  |      **HEADER**     |     **WARNING**     |       **INFO**      |      **DEBUG**      | **REQUIRED** |
-|:----------------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|--------------|
+|:----------------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:------------:|
 | **isLogged**     | Default set to true | Default set to true | Default set to true | Default set to true | Always true  |
 | **isTagShown**   | false               | true                | true                | true                | true         |
 | **includesTime** | false               | true                | true                | true                | true         |
