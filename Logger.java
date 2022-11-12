@@ -1,4 +1,4 @@
-// Simple Java Logger
+// Simple Java Logger by Pedro Marín Sanchis, lisenced under MIT.
 
 import java.io.File;
 import java.io.FileWriter;
@@ -13,36 +13,33 @@ public class Logger {
     private static byte[] paddingArray;
     private static byte biggestLogTypeLength = 0;
 
-    // Configuration
+    private static boolean[] isLoggedArray = {true, true, true, true, true,}; // Must be declared in the same order as enum LogType [HEADER, WARNING...].
+
+    // Configuration.
 
     final private static boolean deleteOldLogFiles = true;
 
-    final private static boolean logWarning = true;
-    final private static boolean logInfo = true;
-    final private static boolean logDebug = true;
-
     final private static String logFilePath = "logs/";
+    private static String currentLog = "DefaultLog.txt";
 
-    private static String logHeaderText = "Simple Java Logger\n\n";
+    private static String logHeaderText = "Simple Java Logger\n\n" + "-".repeat(50); // Default Header Text.
 
 
     public static enum LogType {
 
-        // LogType(isLogged, isShown, includesTime)
+        // LogType(isLogged, isShown, includesTime).
 
-        HEADER(true, false, false),
-        WARNING(logWarning, true, true),
-        INFO(logInfo, true, true),
-        DEBUG(logDebug, true, true),
-        REQUIRED(true, true, true);
+        HEADER(false, false),
+        WARNING(true, true),
+        INFO(true, true),
+        DEBUG(true, true),
+        REQUIRED(true, true);
 
-        private final boolean isLogged;
         private final boolean isTagShown;
         private final boolean includesTime;
 
-        private LogType (boolean isLogged, boolean isTagShown, boolean includesTime) {
+        private LogType (boolean isTagShown, boolean includesTime) {
 
-            this.isLogged = isLogged;
             this.isTagShown = isTagShown;
             this.includesTime = includesTime;
 
@@ -64,8 +61,6 @@ public class Logger {
             
 
         }
-
-        // Check if default log file exists. If not, create one.
 
         // Create new log file.
 
@@ -105,6 +100,12 @@ public class Logger {
 
     }
 
+    public static void changeLogTypeLogging(LogType type, boolean isLogged) {
+
+        isLoggedArray[type.ordinal()] = isLogged;
+
+    }
+
 
     private static String getCurrentTime() {
 
@@ -129,13 +130,13 @@ public class Logger {
 
     private static String formatLog(String log, LogType type) {
 
-        int spacing = 1; // Spacing between date and LogType
+        int spacing = 1; // Spacing between date and LogType.
 
-        if (type == LogType.HEADER) {
+        if (!type.isTagShown && !type.includesTime) {
 
             return log; // Return log without modifications.
 
-        } else if (type.isLogged) {
+        } else {
 
             if (type.isTagShown) {
 
@@ -164,15 +165,19 @@ public class Logger {
     }
 
 
-    public static void log(String log, LogType type) {
+    public static boolean log(String log, LogType type) { // Returns true if write to log is successful.
 
         // Format log.
+
+        if (!isLoggedArray[type.ordinal()]) {return false;}
 
         log = formatLog(log, type);
 
         // Write log to file.
 
         System.out.println(log);
+
+        return true;
 
     }
 

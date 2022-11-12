@@ -16,7 +16,9 @@ Lisenced under **MIT**, created by **Pedro Marín Sanchis**.
 
 First of all, before logging anything, **the logger has to be initialized**. This can be done by using the **initialize()** method.
 
-<pre><code>Logger.initialize();</code></pre>
+```java
+Logger.initialize();
+```
 
 This logger is not meant to be instanced.
 
@@ -32,18 +34,27 @@ Logs can be of various types, which come with specific properties that change th
 
 |                  |      **HEADER**     |     **WARNING**     |       **INFO**      |      **DEBUG**      | **REQUIRED** |
 |:----------------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:------------:|
-| **isLogged**     | Default set to true | Default set to true | Default set to true | Default set to true | Always true  |
 | **isTagShown**   | false               | true                | true                | true                | true         |
 | **includesTime** | false               | true                | true                | true                | true         |
 
 Default log types have the following apperance, note that LogType.HEADER has neither a date nor a type label.
 
 
-<pre><code>Test
+```
+Test
 [2022-11-12_00-41-06]  [WARNING] : Test
 [2022-11-12_00-41-06]     [INFO] : Test
 [2022-11-12_00-41-06]    [DEBUG] : Test
-[2022-11-12_00-41-06] [REQUIRED] : Test</code></pre>
+[2022-11-12_00-41-06] [REQUIRED] : Test
+```
+
+##### Deactivating logging for specific types:
+
+Say you want to make it so LogType.DEBUG logs are not logged. Use the **changeLogTypeLogging()** method.
+
+```java
+Logger.changeLogTypeLogging(Logger.LogType.DEBUG, false);
+```
 
 ### -- HOW TO MODIFY --
 
