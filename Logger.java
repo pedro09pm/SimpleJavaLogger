@@ -21,9 +21,9 @@ public class Logger {
     final private static boolean logInfo = true;
     final private static boolean logDebug = true;
 
-    final private String logFilePath = "logs/";
+    final private static String logFilePath = "logs/";
 
-    final private String logHeaderText = "Simple Java Logger\n\n";
+    private static String logHeaderText = "Simple Java Logger\n\n";
 
 
     public static enum LogType {
@@ -57,7 +57,15 @@ public class Logger {
 
         generatePaddingArray();
 
-        // Check if default log file exists.
+        // Delete old log files, if option is set so.
+
+        if (deleteOldLogFiles) {
+
+            
+
+        }
+
+        // Check if default log file exists. If not, create one.
 
         // Create new log file.
 
@@ -87,6 +95,13 @@ public class Logger {
             paddingArray[i] = (byte) (biggestLogTypeLength - LogType.values()[i].toString().length());
 
         }
+
+    }
+
+
+    public static void setHeaderText(String header) {
+
+        logHeaderText = header;
 
     }
 

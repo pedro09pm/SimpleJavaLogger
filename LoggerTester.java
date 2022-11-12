@@ -3,11 +3,11 @@ public class LoggerTester {
 
         Logger.initialize();
 
-        Logger.log("El wiwi", Logger.LogType.HEADER);
-        Logger.log("El wiwi", Logger.LogType.WARNING);
-        Logger.log("El wiwi", Logger.LogType.INFO);
-        Logger.log("El wiwi", Logger.LogType.DEBUG);
-        Logger.log("El wiwi", Logger.LogType.REQUIRED);
+        Logger.log("Test", Logger.LogType.HEADER);
+        Logger.log("Test", Logger.LogType.WARNING);
+        Logger.log("Test", Logger.LogType.INFO);
+        Logger.log("Test", Logger.LogType.DEBUG);
+        Logger.log("Test", Logger.LogType.REQUIRED);
 
     }
     
