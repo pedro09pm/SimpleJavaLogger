@@ -28,7 +28,7 @@ You can change the header text for newly created log files using the **setHeader
 
 <pre><code>Logger.setHeaderText("HEADER TEXT");</code></pre>
 
-#### · Log types
+#### · LOG TYPES
 
 Logs can be of various types, which come with specific properties that change their apprearance in the final log file. All log types except LogType.REQUIRED have a boolean flag declared at class level to decide if they are logged or not.
 
@@ -48,7 +48,7 @@ Test
 [2022-11-12_00-41-06] [REQUIRED] : Test
 ```
 
-##### Deactivating logging for specific types:
+##### DEACTIVATING LOGGING FOR SPECIFIC TYPES:
 
 Say you want to make it so LogType.DEBUG logs are not logged. Use the **changeLogTypeLogging()** method.
 
