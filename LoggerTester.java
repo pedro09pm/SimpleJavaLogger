@@ -2,6 +2,7 @@ public class LoggerTester {
     public static void main(String[] args) {
 
         Logger.initialize();
+        Logger.setHeaderText("HEADER TEXT");
 
         Logger.log("Test", Logger.LogType.HEADER);
         Logger.log("Test", Logger.LogType.WARNING);
