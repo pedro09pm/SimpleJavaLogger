@@ -10,6 +10,8 @@ import java.time.LocalDate;
 
 public class Logger {
 
+    private static boolean loggerInitialized = false;
+
     private static byte[] paddingArray;
     private static byte biggestLogTypeLength = 0;
 
@@ -17,9 +19,9 @@ public class Logger {
 
     // Configuration.
 
-    final private static boolean deleteOldLogFiles = true;
+    private static boolean deleteOldLogFiles = true;
 
-    final private static String logFilePath = "logs/";
+    private static String logFilePath = "logs/";
     private static String currentLog = "DefaultLog.txt";
 
     private static String logHeaderText = "Simple Java Logger\n\n" + "-".repeat(50); // Default Header Text.
@@ -27,7 +29,7 @@ public class Logger {
 
     public static enum LogType {
 
-        // LogType(isLogged, isShown, includesTime).
+        // LogType(isShown, includesTime).
 
         HEADER(false, false),
         WARNING(true, true),
@@ -50,19 +52,25 @@ public class Logger {
 
     public static void initialize() {
 
-        // Generate padding array for text formatting.
+        if (!loggerInitialized) {
 
-        generatePaddingArray();
+            // Generate padding array for text formatting.
 
-        // Delete old log files, if option is set so.
+            generatePaddingArray();
 
-        if (deleteOldLogFiles) {
+            // Delete old log files, if option is set so.
 
-            
+            if (deleteOldLogFiles) {
+
+                deleteOldLogs();
+
+            }
+
+            // Create new log file.
+
+            loggerInitialized = true;
 
         }
-
-        // Create new log file.
 
     }
 
@@ -106,6 +114,23 @@ public class Logger {
 
     }
 
+    public static void changeLogPath(String path) {
+
+        if (!loggerInitialized) {logFilePath = path;}
+
+    }
+
+    public static void deleteOldLogsAtInit(boolean choice) {
+
+        deleteOldLogFiles = choice;
+
+    }
+
+    private static void deleteOldLogs() {
+
+        // Find all logs to be deleted and use deleteLogFile() method.
+
+    }
 
     private static String getCurrentTime() {
 

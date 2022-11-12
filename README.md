@@ -12,9 +12,9 @@ Lisenced under **MIT**, created by **Pedro Marín Sanchis**.
 
 ---
 
-### -- HOW TO USE --
+### HOW TO USE
 
-First of all, before logging anything, **the logger has to be initialized**. This can be done by using the **initialize()** method.
+First of all, before logging anything, remember to configure the loggers behaviour with the methods explained below. Remember that **the logger has to be initialized**. This can be done by using the **initialize()** method.
 
 ```java
 Logger.initialize();
@@ -22,15 +22,17 @@ Logger.initialize();
 
 This logger is not meant to be instanced.
 
-#### · CUSTOMIZING A HEADER TEXT
+#### · HEADER TEXT
 
 You can change the header text for newly created log files using the **setHeaderText()** method.
 
 <pre><code>Logger.setHeaderText("HEADER TEXT");</code></pre>
 
-#### · LOG TYPES
+#### · LOGS
 
-Logs can be of various types, which come with specific properties that change their apprearance in the final log file. All log types except LogType.REQUIRED have a boolean flag declared at class level to decide if they are logged or not.
+##### LOG TYPES
+
+Logs can be of various types, which come with specific properties that change their apprearance in the final log file. All log types except LogType.REQUIRED have a boolean flag declared at class level which can be changed to decide if they are logged or not.
 
 |                  |      **HEADER**     |     **WARNING**     |       **INFO**      |      **DEBUG**      | **REQUIRED** |
 |:----------------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:------------:|
@@ -48,6 +50,14 @@ Test
 [2022-11-12_00-41-06] [REQUIRED] : Test
 ```
 
+##### DELETING OLD LOG FILES
+
+Old log files will be deleted upon initialization (Set to **true** by default). To configure this behaviour use the **deleteOldLogsAtInit()** method.
+
+```java
+Logger.deleteOldLogsAtInit(false);
+```
+
 ##### DEACTIVATING LOGGING FOR SPECIFIC TYPES:
 
 Say you want to make it so LogType.DEBUG logs are not logged. Use the **changeLogTypeLogging()** method.
@@ -56,10 +66,70 @@ Say you want to make it so LogType.DEBUG logs are not logged. Use the **changeLo
 Logger.changeLogTypeLogging(Logger.LogType.DEBUG, false);
 ```
 
-### -- HOW TO MODIFY --
+##### CHANGING LOG FILE PATHS
 
-#### · Changing default file paths
+The default path for logs is "logs/". They will look like so:
+
+```
+Log[2022-11-12_00-41-06].txt
+Log[2022-11-12_04-37-16].txt
+```
+
+To change the default log path use the **changeLogPath()** method. Remember that **this can only be done before initializing**.
+
+```java
+Logger.changeLogPath("logArchive/");
+```
+
+---
+
+### HOW TO MODIFY
 
 #### · Adding log types
+
+Inside Logger.java you will find the enum "LogType":
+
+```java
+public static enum LogType {
+
+    // LogType(isShown, includesTime).
+
+    HEADER(false, false),
+    WARNING(true, true),
+    INFO(true, true),
+    DEBUG(true, true),
+    REQUIRED(true, true);
+
+    private final boolean isTagShown;
+    private final boolean includesTime;
+
+    private LogType (boolean isTagShown, boolean includesTime) {
+
+        this.isTagShown = isTagShown;
+        this.includesTime = includesTime;
+
+    }
+
+}
+```
+
+Adding new log types is simple, it can be done by adding an element to the list like so:
+
+```java
+public static enum LogType {
+
+    // LogType(isShown, includesTime).
+
+    HEADER(false, false),
+    WARNING(true, true),
+    INFO(true, true),
+    DEBUG(true, true),
+    REQUIRED(true, true),
+    NEWTYPE(true, true); // <----- Your new log type!
+
+    ...
+```
+
+Keep in mind that the last element of the list must end with ";" and the rest of the elements must be separated by commas. Spacing for formatting and such is calculated automatically at initialization.
 
 </div>
