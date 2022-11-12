@@ -85,7 +85,7 @@ Logger.changeLogPath("logArchive/");
 
 ### HOW TO MODIFY
 
-#### · Adding log types
+#### · ADDING LOG TYPES
 
 Inside Logger.java you will find the enum "LogType":
 
