@@ -22,6 +22,8 @@ This logger is not meant to be instanced.
 
 #### · CUSTOMIZING A HEADER TEXT
 
+You can change the header text for newly created log files using the **setHeaderText()** method.
+
 <pre><code>Logger.setHeaderText("HEADER TEXT");</code></pre>
 
 #### · Log types
