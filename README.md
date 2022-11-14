@@ -11,6 +11,10 @@
 Lisenced under **MIT**, created by **Pedro Marín Sanchis**.
 
 ---
+    
+### DOWNLOAD
+    
+Head to the [Releases](https://github.com/pedro09pm/SimpleJavaLogger/releases) page of this repository, where you'll find all the different versions.
 
 ### HOW TO USE
 
