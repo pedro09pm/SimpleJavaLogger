@@ -8,7 +8,9 @@
 
 </div>
 
-Lisenced under **MIT**, created by **Pedro Marín Sanchis**. READ LISENCE BEFORE USING.
+Lisenced under **MIT**, created by **Pedro Marín Sanchis**.
+    
+**READ LISENCE BEFORE USE.**
 
 ---
     
