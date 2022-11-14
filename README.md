@@ -8,13 +8,13 @@
 
 </div>
 
-Lisenced under **MIT**, created by **Pedro Marín Sanchis**.
+Lisenced under **MIT**, created by **Pedro Marín Sanchis**. READ LISENCE BEFORE USING.
 
 ---
     
 ### DOWNLOAD
     
-Head to the [Releases](https://github.com/pedro09pm/SimpleJavaLogger/releases) page of this repository, where you'll find all the different versions.
+Head to the [releases](https://github.com/pedro09pm/SimpleJavaLogger/releases) page of this repository, where you'll find all the different versions.
 
 ### HOW TO USE
 
