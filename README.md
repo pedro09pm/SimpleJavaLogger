@@ -26,7 +26,7 @@ First of all, before logging anything, remember to configure the loggers behavio
 Logger.initialize();
 ```
 
-This logger is not meant to be instanced.
+Simple Java Logger is a **static** class, it is **not** meant to be instanced.
 
 #### · HEADER TEXT
 
