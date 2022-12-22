@@ -10,18 +10,24 @@ import java.time.LocalDate;
 
 public class Logger {
 
+    // Log
+
+    private static StringBuffer logBuffer = new StringBuffer();
+
+    // LogType
+
     private static boolean loggerInitialized = false;
 
     private static byte[] paddingArray;
     private static byte biggestLogTypeLength = 0;
-
+    
     private static boolean[] isLoggedArray = {true, true, true, true, true,}; // Must be declared in the same order as enum LogType [HEADER, WARNING...].
 
     // Configuration.
 
     private static boolean deleteOldLogFiles = true;
 
-    private static String logFilePath = "logs/";
+    private static String logFilePath = "Logs/";
     private static String currentLog = "DefaultLog.txt";
 
     private static String logHeaderText = "Simple Java Logger\n\n" + "-".repeat(50); // Default Header Text.
@@ -62,11 +68,19 @@ public class Logger {
 
             if (deleteOldLogFiles) {
 
-                deleteOldLogs();
+                //deleteOldLogs();
 
             }
 
-            // Create new log file.
+            // Set current log name.
+
+            currentLog = "Log[" + getCurrentTime() + "].txt";
+
+            // Log header text
+
+            log(logHeaderText, LogType.HEADER);
+
+            // Set initialized to true.
 
             loggerInitialized = true;
 
@@ -101,7 +115,6 @@ public class Logger {
 
     }
 
-
     public static void setHeaderText(String header) {
 
         logHeaderText = header;
@@ -128,7 +141,11 @@ public class Logger {
 
     private static void deleteOldLogs() {
 
-        // Find all logs to be deleted and use deleteLogFile() method.
+        File[] oldLogs = new File(logFilePath).listFiles();
+
+        for (int i = 0; i < oldLogs.length; i++) {
+            oldLogs[i].delete();
+        }
 
     }
 
@@ -138,20 +155,20 @@ public class Logger {
 
     }
 
+    private static void createLogFile(File file) {
 
-    private static void createLogFile(String logName) {
+        try {
 
-
+            FileWriter writer = new FileWriter(file);
+            writer.write(logBuffer.toString());
+            writer.close();
+            
+        } catch (IOException e) {
+            log("Error while trying to create log " + currentLog + ".", LogType.REQUIRED);
+            e.printStackTrace();
+        }
 
     }
-    
-
-    private static void deleteLogFile(String logName) {
-
-
-
-    }
-
 
     private static String formatLog(String log, LogType type) {
 
@@ -185,25 +202,27 @@ public class Logger {
 
         }
 
-        return log;
+        return log + "\n";
 
     }
 
-
-    public static boolean log(String log, LogType type) { // Returns true if write to log is successful.
+    public static void log(String log, LogType type) {
 
         // Format log.
 
-        if (!isLoggedArray[type.ordinal()]) {return false;}
+        if (!isLoggedArray[type.ordinal()]) {return;}
 
         log = formatLog(log, type);
 
         // Write log to file.
 
-        System.out.println(log);
-
-        return true;
+        logBuffer.append(log);
 
     }
 
+    public static void writeToFile() {
+
+        createLogFile(new File(logFilePath+currentLog));
+
+    }
 }
