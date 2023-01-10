@@ -4,11 +4,16 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import java.time.LocalTime; 
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.time.LocalDate;
 
 
 public class Logger {
+
+    // List of paths with an active logger.
+
+    ArrayList<String> activeLogPaths = new ArrayList<>();
 
     // Log
 
@@ -224,5 +229,11 @@ public class Logger {
 
         createLogFile(new File(logFilePath+currentLog));
 
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        writeToFile();
+        super.finalize();
     }
 }
