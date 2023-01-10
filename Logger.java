@@ -11,31 +11,23 @@ import java.time.LocalDate;
 
 public class Logger {
 
-    // List of paths with an active logger.
-
-    ArrayList<String> activeLogPaths = new ArrayList<>();
-
     // Log
 
-    private static StringBuffer logBuffer = new StringBuffer();
+    private StringBuffer logBuffer = new StringBuffer();
 
     // LogType
-
-    private static boolean loggerInitialized = false;
 
     private static byte[] paddingArray;
     private static byte biggestLogTypeLength = 0;
     
-    private static boolean[] isLoggedArray = {true, true, true, true, true,}; // Must be declared in the same order as enum LogType [HEADER, WARNING...].
+    private boolean[] isLoggedArray = {true, true, true, true, true,}; // Must be declared in the same order as enum LogType [HEADER, WARNING...].
 
     // Configuration.
 
-    private static boolean deleteOldLogFiles = true;
+    private String logFilePath = "Logs";
+    private String currentLog = "DefaultLog.txt";
 
-    private static String logFilePath = "Logs/";
-    private static String currentLog = "DefaultLog.txt";
-
-    private static String logHeaderText = "Simple Java Logger\n\n" + "-".repeat(50); // Default Header Text.
+    private String logHeaderText = "Simple Java Logger\n\n" + "-".repeat(50); // Default Header Text.
 
 
     public static enum LogType {
@@ -60,36 +52,21 @@ public class Logger {
 
     }
 
+    public Logger(String logFilePath, String logHeaderText, boolean deleteOldLogFiles) {
 
-    public static void initialize() {
-
-        if (!loggerInitialized) {
-
-            // Generate padding array for text formatting.
-
-            generatePaddingArray();
-
-            // Delete old log files, if option is set so.
-
-            if (deleteOldLogFiles) {
-
-                //deleteOldLogs();
-
-            }
-
-            // Set current log name.
-
-            currentLog = "Log[" + getCurrentTime() + "].txt";
-
-            // Log header text
-
-            log(logHeaderText, LogType.HEADER);
-
-            // Set initialized to true.
-
-            loggerInitialized = true;
-
+        this.logFilePath = logFilePath + "/"; //TODO: FIX THIS, NOT MULTIPLATFORM.
+        
+        if (logHeaderText != null) {
+            this.logHeaderText = logHeaderText;
+        } else {
+            System.out.println("Null!");
         }
+
+        if (deleteOldLogFiles) {deleteOldLogs();};
+
+        generatePaddingArray();
+        currentLog = "Log[" + getCurrentTime() + "].log";
+        log(this.logHeaderText, LogType.HEADER);
 
     }
 
@@ -120,36 +97,26 @@ public class Logger {
 
     }
 
-    public static void setHeaderText(String header) {
-
-        logHeaderText = header;
-
-    }
-
-    public static void changeLogTypeLogging(LogType type, boolean isLogged) {
+    public void changeLogTypeLogging(LogType type, boolean isLogged) {
 
         isLoggedArray[type.ordinal()] = isLogged;
 
     }
 
-    public static void changeLogPath(String path) {
+    public void changeLogPath(String logFilePath) {
 
-        if (!loggerInitialized) {logFilePath = path;}
-
-    }
-
-    public static void deleteOldLogsAtInit(boolean choice) {
-
-        deleteOldLogFiles = choice;
+        this.logFilePath = logFilePath;
 
     }
 
-    private static void deleteOldLogs() {
+    private void deleteOldLogs() {
 
         File[] oldLogs = new File(logFilePath).listFiles();
 
         for (int i = 0; i < oldLogs.length; i++) {
-            oldLogs[i].delete();
+            if (oldLogs[i].getName().endsWith(".log")) {
+                oldLogs[i].delete();
+            }
         }
 
     }
@@ -157,21 +124,6 @@ public class Logger {
     private static String getCurrentTime() {
 
         return LocalDate.now().toString() + "_" + LocalTime.now().toString().substring(0, 8).replaceAll(":", "-");
-
-    }
-
-    private static void createLogFile(File file) {
-
-        try {
-
-            FileWriter writer = new FileWriter(file);
-            writer.write(logBuffer.toString());
-            writer.close();
-            
-        } catch (IOException e) {
-            log("Error while trying to create log " + currentLog + ".", LogType.REQUIRED);
-            e.printStackTrace();
-        }
 
     }
 
@@ -211,11 +163,11 @@ public class Logger {
 
     }
 
-    public static void log(String log, LogType type) {
+    public void log(String log, LogType type) {
 
         // Format log.
 
-        if (!isLoggedArray[type.ordinal()]) {return;}
+        if (!isLoggedArray[type.ordinal()]) {return;} // Do not log if isLoggedArray says so.
 
         log = formatLog(log, type);
 
@@ -225,15 +177,24 @@ public class Logger {
 
     }
 
-    public static void writeToFile() {
+    public void writeToFile() {
 
-        createLogFile(new File(logFilePath+currentLog));
+        File file = new File(logFilePath+currentLog);
+        try {
+    
+            FileWriter writer = new FileWriter(file);
+            writer.write(logBuffer.toString());
+            writer.close();
+            
+        } catch (IOException e) {
+            log("Error while trying to create log " + currentLog + ".", LogType.REQUIRED);
+            e.printStackTrace();
+        }
 
     }
 
     @Override
     protected void finalize() throws Throwable {
         writeToFile();
-        super.finalize();
     }
 }
