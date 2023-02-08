@@ -20,23 +20,41 @@ Head to the [releases](https://github.com/pedro09pm/SimpleJavaLogger/releases) p
 
 ### HOW TO USE
 
-First of all, before logging anything, remember to configure the loggers behaviour with the methods explained below. Remember that **the logger has to be initialized**. This can be done by using the **initialize()** method.
+First of all, before logging anything, **you must create a Logger object**. This can be done by using the **constructor**:
 
 ```java
-Logger.initialize();
+Logger logger = new Logger("Log Path", "Header Text");
 ```
 
-Simple Java Logger is a **static** class, it is **not** meant to be instanced.
+The default path for logs is "**logs/**". They will look like so:
 
-#### · HEADER TEXT
+```
+Log[2022-11-12_00-41-06][1].log
+Log[2022-11-12_04-37-16][1].log
+```
 
-You can change the header text for newly created log files using the **setHeaderText()** method.
+To log something use the **log()** method:
 
-<pre><code>Logger.setHeaderText("HEADER TEXT");</code></pre>
+```java
+logger.log("Your log text here", Logger.LogType.INFO);
+```
 
-#### · LOGS
+**REMEMBER TO CLOSE THE LOGGER BEFORE PROGRAM EXIT.**
+Otherwise you could encounter your logs missing entries, or not existing at all. By default the logger will write to file every **100** entries.
 
-##### LOG TYPES
+```java
+logger.close();
+```
+
+You can also use the **writeToFile()** method to foce the logger to write to the file.
+
+```java
+logger.writeToFile();
+```
+
+### LOGS
+
+#### · LOG TYPES
 
 Logs can be of various types, which come with specific properties that change their apprearance in the final log file. All log types except LogType.REQUIRED have a boolean flag declared at class level which can be changed to decide if they are logged or not.
 
@@ -56,35 +74,22 @@ Test
 [2022-11-12_00-41-06] [REQUIRED] : Test
 ```
 
-##### DELETING OLD LOG FILES
+#### · DELETING OLD LOG FILES
 
-Old log files will be deleted upon initialization (Set to **true** by default). To configure this behaviour use the **deleteOldLogsAtInit()** method.
+To delete old log files you can use the **deleteOldLogs()** method.
 
 ```java
-Logger.deleteOldLogsAtInit(false);
+Logger.deleteOldLogs("Log Path");
 ```
 
-##### DEACTIVATING LOGGING FOR SPECIFIC TYPES:
+This will delete all files ending with ".log" inside the specified directory.
+
+#### · DEACTIVATING LOGGING FOR SPECIFIC TYPES:
 
 Say you want to make it so LogType.DEBUG logs are not logged. Use the **changeLogTypeLogging()** method.
 
 ```java
 Logger.changeLogTypeLogging(Logger.LogType.DEBUG, false);
-```
-
-##### CHANGING LOG FILE PATHS
-
-The default path for logs is "logs/". They will look like so:
-
-```
-Log[2022-11-12_00-41-06].txt
-Log[2022-11-12_04-37-16].txt
-```
-
-To change the default log path use the **changeLogPath()** method. Remember that **this can only be done before initializing**.
-
-```java
-Logger.changeLogPath("logArchive/");
 ```
 
 ---
@@ -136,6 +141,6 @@ public static enum LogType {
     ...
 ```
 
-Keep in mind that the last element of the list must end with ";" and the rest of the elements must be separated by commas. Spacing for formatting and such is calculated automatically at initialization.
+Keep in mind that the last element of the list must end with ";" and the rest of the elements must be separated by commas. Spacing for formatting and such is calculated automatically.
 
 </div>

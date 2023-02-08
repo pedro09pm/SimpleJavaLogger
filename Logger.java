@@ -12,6 +12,8 @@ public class Logger {
 
     // Configuration.
 
+    private int storedEntries = 0;
+    private final int maxStoredEntries = 100;
     private String logFilePath = "Logs" + File.separatorChar;
     private String currentLog = "DefaultLog";
 
@@ -144,7 +146,7 @@ public class Logger {
         int spacing = 1; // Spacing between date and LogType.
 
         if (!type.isTagShown && !type.includesTime) {
-            return log; // Return log without modifications.
+            return log + "\n"; // Return log without modifications (Except newline, of course).
         } else {
             if (type.isTagShown) {
                 log = " ".repeat(paddingArray[type.ordinal()] + spacing) + "[" + type + "] : " + log;
@@ -175,6 +177,11 @@ public class Logger {
 
         logBuffer.append(log);
 
+        storedEntries++;
+        if (storedEntries>=maxStoredEntries) {
+            writeToFile();
+        }
+
     }
 
     public void writeToFile() {
@@ -183,6 +190,7 @@ public class Logger {
             FileWriter writer = new FileWriter(logFile);
             writer.write(logBuffer.toString());
             writer.close();  
+            storedEntries = 0;
         } catch (IOException e) {
             log("Error while trying to create log " + currentLog + ".", LogType.REQUIRED);
             e.printStackTrace();
