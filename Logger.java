@@ -5,15 +5,22 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.time.LocalDate;
 
 
 public class Logger {
 
+    // Configuration.
+
+    private String logFilePath = "Logs" + File.separatorChar;
+    private String currentLog = "DefaultLog";
+
+    private String logHeaderText = "SIMPLE JAVA LOGGER\n\n" + "-".repeat(50); // Default Header Text.
+
     // Log
 
     private StringBuffer logBuffer = new StringBuffer();
+    private File logFile = null;
 
     // LogType
 
@@ -21,13 +28,6 @@ public class Logger {
     private static byte biggestLogTypeLength = 0;
     
     private boolean[] isLoggedArray = {true, true, true, true, true,}; // Must be declared in the same order as enum LogType [HEADER, WARNING...].
-
-    // Configuration.
-
-    private String logFilePath = "Logs";
-    private String currentLog = "DefaultLog.txt";
-
-    private String logHeaderText = "Simple Java Logger\n\n" + "-".repeat(50); // Default Header Text.
 
 
     public static enum LogType {
@@ -52,22 +52,34 @@ public class Logger {
 
     }
 
-    public Logger(String logFilePath, String logHeaderText, boolean deleteOldLogFiles) {
+    public Logger(String logFilePath, String logHeaderText) {
 
-        this.logFilePath = logFilePath + "/"; //TODO: FIX THIS, NOT MULTIPLATFORM.
+        if (logHeaderText != null) {
+            this.logFilePath = logFilePath + File.separatorChar;
+        }
         
         if (logHeaderText != null) {
             this.logHeaderText = logHeaderText;
-        } else {
-            System.out.println("Null!");
         }
 
-        if (deleteOldLogFiles) {deleteOldLogs();};
-
         generatePaddingArray();
-        currentLog = "Log[" + getCurrentTime() + "].log";
+        currentLog = "Log["+getCurrentTime()+"]"; 
+        logFile = findAvailableLog();
         log(this.logHeaderText, LogType.HEADER);
+        writeToFile();
 
+    }
+
+
+    private File findAvailableLog() {
+        int count = 1;
+        while (true) {
+            File file = new File(logFilePath+currentLog+"["+count+"].log");
+            if (!file.exists()) {
+                return file;
+            }
+            count++;
+        }
     }
 
 
@@ -109,9 +121,9 @@ public class Logger {
 
     }
 
-    private void deleteOldLogs() {
+    public static void deleteOldLogs(String path) {
 
-        File[] oldLogs = new File(logFilePath).listFiles();
+        File[] oldLogs = new File(path+File.separatorChar).listFiles();
 
         for (int i = 0; i < oldLogs.length; i++) {
             if (oldLogs[i].getName().endsWith(".log")) {
@@ -132,31 +144,19 @@ public class Logger {
         int spacing = 1; // Spacing between date and LogType.
 
         if (!type.isTagShown && !type.includesTime) {
-
             return log; // Return log without modifications.
-
         } else {
-
             if (type.isTagShown) {
-
                 log = " ".repeat(paddingArray[type.ordinal()] + spacing) + "[" + type + "] : " + log;
-
             } else {
-
                 log = " ".repeat(biggestLogTypeLength + spacing*2) + " : " + log;
-
             }
 
             if (type.includesTime) {
-
                 log = "[" + getCurrentTime() + "]" + log;
-
             } else {
-
                 log = " ".repeat(getCurrentTime().length() + spacing*2) + log;
-
             }
-
         }
 
         return log + "\n";
@@ -179,13 +179,10 @@ public class Logger {
 
     public void writeToFile() {
 
-        File file = new File(logFilePath+currentLog);
         try {
-    
-            FileWriter writer = new FileWriter(file);
+            FileWriter writer = new FileWriter(logFile);
             writer.write(logBuffer.toString());
-            writer.close();
-            
+            writer.close();  
         } catch (IOException e) {
             log("Error while trying to create log " + currentLog + ".", LogType.REQUIRED);
             e.printStackTrace();
@@ -193,8 +190,13 @@ public class Logger {
 
     }
 
+    public void close() {
+        log("\nEND OF LOG.", LogType.HEADER);
+        writeToFile();
+    }
+
     @Override
     protected void finalize() throws Throwable {
-        writeToFile();
+        close();
     }
 }
