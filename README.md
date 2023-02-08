@@ -10,7 +10,7 @@
 
 Lisenced under **MIT**, created by **Pedro Marín Sanchis**.
     
-**READ LISENCE BEFORE USE.**
+**READ LICENSE BEFORE USE.**
 
 ---
     
