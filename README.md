@@ -39,17 +39,22 @@ To log something use the **log()** method:
 logger.log("Your log text here", Logger.LogType.INFO);
 ```
 
-**REMEMBER TO CLOSE THE LOGGER BEFORE PROGRAM EXIT.**
-Otherwise you could encounter your logs missing entries, or not existing at all. By default the logger will write to file every **100** entries.
+**REMEMBER TO CLOSE THE LOGGER BEFORE PROGRAM EXIT.** Otherwise you could encounter your logs missing entries, or not existing at all. By default the logger will write to file every **100** entries.
 
+Use the **close()** method.
 ```java
 logger.close();
 ```
 
-You can also use the **writeToFile()** method to foce the logger to write to the file.
+You can also use the **writeToFile()** method to force the logger to write to the file.
 
 ```java
 logger.writeToFile();
+```
+
+Finally, if you want to change the automatic logging interval you can use the **setWriteToFileInterval()** method.
+```java
+logger.setWriteToFileInterval(50);
 ```
 
 ### LOGS
@@ -102,9 +107,7 @@ Inside Logger.java you will find the enum "LogType":
 
 ```java
 public static enum LogType {
-
     // LogType(isShown, includesTime).
-
     HEADER(false, false),
     WARNING(true, true),
     INFO(true, true),
@@ -115,12 +118,9 @@ public static enum LogType {
     private final boolean includesTime;
 
     private LogType (boolean isTagShown, boolean includesTime) {
-
         this.isTagShown = isTagShown;
         this.includesTime = includesTime;
-
     }
-
 }
 ```
 
@@ -128,16 +128,13 @@ Adding new log types is simple, it can be done by adding an element to the list 
 
 ```java
 public static enum LogType {
-
     // LogType(isShown, includesTime).
-
     HEADER(false, false),
     WARNING(true, true),
     INFO(true, true),
     DEBUG(true, true),
     REQUIRED(true, true),
     NEWTYPE(true, true); // <----- Your new log type!
-
     ...
 ```
 
