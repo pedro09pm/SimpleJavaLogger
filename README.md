@@ -26,7 +26,7 @@ First of all, before logging anything, **you must create a Logger object**. This
 Logger logger = new Logger("Log Path", "Header Text");
 ```
 
-The default path for logs is "**logs/**". They will look like so:
+The default path for logs is "**logs**". They will look like so:
 
 ```
 Log[2022-11-12_00-41-06][1].log

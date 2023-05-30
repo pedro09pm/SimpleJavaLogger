@@ -12,7 +12,7 @@ public class Logger {
     // Configuration.
     private int storedEntries = 0;
     private int writeToFileInterval = 100;
-    private String logFilePath = "Logs" + File.separatorChar;
+    private String logFilePath = "logs" + File.separatorChar;
     private String currentLog = "DefaultLog";
     private String logHeaderText = "SIMPLE JAVA LOGGER\n\n" + "-".repeat(50); // Default Header Text.
 
