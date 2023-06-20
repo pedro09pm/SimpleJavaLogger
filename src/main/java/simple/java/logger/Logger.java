@@ -1,4 +1,5 @@
 // Simple Java Logger by Pedro Marín Sanchis, licensed under MIT.
+package simple.java.logger;
 
 import java.io.File;
 import java.io.FileWriter;
